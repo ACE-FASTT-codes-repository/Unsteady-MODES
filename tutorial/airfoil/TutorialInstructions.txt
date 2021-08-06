@@ -1,0 +1,41 @@
+Tutorial for running AdaptiveMODES Offline-Online for the simple case of a symmetric airfoil.
+The Adaptive Framework will be built using three methods, namely Proper Orthogonal Decomposition (POD),
+Dynamic Mode Decomposition (DMD) and Recursive Dynamic Mode Decomposition (RDMD)
+
+Make sure you have the following executable
+AdaptiveMODES_DTR_Offline
+AdaptiveMODES_DTR_Online
+SU2_DTR, SU2_SOL (you can download and install at https://github.com/ACE-FASTT-codes-repository/SU2-DualTimeResidual)
+
+
+First step is the generation of the residual error database for the Adaptive Framework
+
+- Create links to AdaptiveMODES_DTR_Offline and SU2_DTR in your working folder
+
+- Run AdaptiveMODES_DTR_Offline as follows
+		./AdaptiveMODES_DTR_Offline configfile-modes.cfg configfile-su2.cfg
+		
+  where configfile-modes is modesOffline.cfg and configfile-su2 is su2-NACA0012.cfg for this tutorial.
+  history files will be generated for each method included in the Adaptive Framework, namely POD, DMD and RDMD 
+
+- Make sure to rename each history file in the format history_method.csv (all small case).
+  For example, history_POD_5_0.001.csv, which carries information about the number of modes and the discretization
+  used for computing the dual time residual, should be renamed or linked as history_pod.csv
+  
+- Run AdaptiveMODES_DTR_Online as follows 
+		./AdaptiveMODES_DTR_Online configfile-modes.cfg
+  where configfile-modes is modesOnline.cfg for this test case
+  
+Target solutions, as specified in the config file, will be the output of the run and will be numbered from 0 up
+to the number of target points specified in the configuration file (T_REC flag containing the list of the time instants
+to reconstruct)
+
+If you want to visualize the solution, PostProcess through SU2_SOL can be done, setting the available su2 config file properly 
+(with correct names of file and mesh)
+	./SU2_SOL su2config.cfg
+vtk/dat files will be generated that can be visualized in paraview 
+
+
+ 
+
+
